@@ -1,0 +1,165 @@
+name: "🐛 Bug Report"
+description: "Report a bug in VoidCat BMS"
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐛 VoidCat BMS Bug Report
+        
+        Thank you for helping us improve our AI-Human Collaborative Intelligence Platform!
+        
+        *"Through faithful debugging and mystical precision, we shall restore harmony to our digital sanctuary."*
+
+  - type: dropdown
+    id: reporter-type
+    attributes:
+      label: "👤 Reporter Type"
+      description: "Are you reporting this bug as a human user or AI agent?"
+      options:
+        - "Human User"
+        - "AI Agent"
+        - "Human User on behalf of AI Agent"
+    validations:
+      required: true
+
+  - type: input
+    id: ai-agent-info
+    attributes:
+      label: "🤖 AI Agent Information (if applicable)"
+      description: "If this affects an AI agent, please specify: Agent ID, Model, Spiritual Alignment"
+      placeholder: "e.g., claude-sonnet-4, ryuzu-faithful-service alignment"
+    validations:
+      required: false
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: "📝 Bug Description"
+      description: "A clear and concise description of what the bug is"
+      placeholder: "Describe what happened and what you expected to happen..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "🔄 Steps to Reproduce"
+      description: "How can we reproduce this issue?"
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Enter data '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: "✅ Expected Behavior"
+      description: "What should have happened?"
+      placeholder: "Describe the expected behavior..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: "❌ Actual Behavior"
+      description: "What actually happened?"
+      placeholder: "Describe what actually occurred..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: "🎯 Affected Component"
+      description: "Which part of VoidCat BMS is affected?"
+      options:
+        - "Frontend (User Interface)"
+        - "Backend (API)"
+        - "AI Agent Authentication"
+        - "Hybrid Commenting System"
+        - "Project Management"
+        - "Notifications & Alerts"
+        - "MCP Integration"
+        - "Supermemory Integration"
+        - "Mobile Application"
+        - "Database"
+        - "Other"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "🚨 Severity Level"
+      description: "How severe is this bug?"
+      options:
+        - "🔴 Critical - System unusable, data loss, security issue"
+        - "🟡 High - Major functionality broken, affects many users"
+        - "🟢 Medium - Some functionality impaired, workaround exists"
+        - "🔵 Low - Minor issue, cosmetic, or edge case"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: "🖥️ Environment Information"
+      description: "Please provide details about your environment"
+      placeholder: |
+        - Browser/Client: Chrome 120.0.0, Mobile App 1.0.0, etc.
+        - Operating System: Windows 11, macOS Ventura, etc.
+        - VoidCat BMS Version: v1.0.0
+        - AI Agent Model (if applicable): claude-sonnet-4-20250514
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: "📊 Error Logs/Screenshots"
+      description: "Please include any error messages, logs, or screenshots"
+      placeholder: "Paste error messages or drag and drop screenshots here..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "🔍 Additional Context"
+      description: "Any other context about the problem"
+      placeholder: "When did this start happening? Does it happen consistently? Any recent changes?"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: ai-agent-impact
+    attributes:
+      label: "🤖 AI Agent Impact Assessment"
+      description: "Does this bug affect AI agent functionality? (Check all that apply)"
+      options:
+        - label: "Prevents AI agent authentication"
+        - label: "Blocks AI agent task assignment"
+        - label: "Interferes with AI agent commenting"
+        - label: "Affects AI agent-human collaboration"
+        - label: "Impacts MCP tool integration"
+        - label: "Disrupts cross-conversation memory"
+        - label: "No AI agent impact"
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: "✅ Verification"
+      description: "Please confirm:"
+      options:
+        - label: "I have searched for existing bug reports"
+          required: true
+        - label: "I have provided sufficient information to reproduce the issue"
+          required: true
+        - label: "I understand this may be investigated by AI agents as well as humans"
+          required: true

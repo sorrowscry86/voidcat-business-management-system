@@ -1,0 +1,120 @@
+name: Continuous Integration
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '20.x'
+  
+jobs:
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install Backend Dependencies
+      working-directory: ./backend
+      run: npm ci
+    
+    - name: Install Frontend Dependencies
+      working-directory: ./frontend
+      run: npm ci
+    
+    - name: Run Backend Linter
+      working-directory: ./backend
+      run: npm run lint:check
+    
+    - name: Run Frontend Linter  
+      working-directory: ./frontend
+      run: npm run lint:check
+      
+    - name: Run Backend Tests
+      working-directory: ./backend
+      run: npm run test:coverage
+      
+    - name: Run Frontend Tests
+      working-directory: ./frontend
+      run: npm run test:coverage
+    
+    - name: Build Backend
+      working-directory: ./backend
+      run: npm run build
+    
+    - name: Build Frontend
+      working-directory: ./frontend
+      run: npm run build
+    
+    - name: Upload Backend Coverage
+      if: matrix.node-version == '20.x'
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./backend/coverage/lcov.info
+        flags: backend
+        name: backend-coverage
+    
+    - name: Upload Frontend Coverage
+      if: matrix.node-version == '20.x'
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./frontend/coverage/lcov.info
+        flags: frontend
+        name: frontend-coverage
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+    
+    - name: Run Security Audit
+      run: |
+        cd backend && npm audit --audit-level moderate
+        cd ../frontend && npm audit --audit-level moderate
+    
+    - name: Run Snyk Security Check
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=medium
+
+  ai-agent-validation:
+    name: AI Agent Integration Tests
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[ai-test]') || github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    
+    - name: Install Dependencies
+      working-directory: ./backend
+      run: npm ci
+      
+    - name: Run AI Agent Authentication Tests
+      working-directory: ./backend  
+      run: npm run test:ai-agents
+      env:
+        TEST_AI_AGENT_TOKEN: ${{ secrets.TEST_AI_AGENT_TOKEN }}
+        TEST_MCP_ENDPOINT: ${{ secrets.TEST_MCP_ENDPOINT }}

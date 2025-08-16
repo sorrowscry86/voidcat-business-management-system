@@ -1,0 +1,124 @@
+name: VoidCat BMS Project Automation
+on:
+  issues:
+    types: [opened, closed, labeled, assigned]
+  pull_request:
+    types: [opened, closed, merged, labeled]
+  issue_comment:
+    types: [created]
+
+jobs:
+  ai-human-collaboration:
+    name: AI-Human Task Management
+    runs-on: ubuntu-latest
+    steps:
+    - name: Add to VoidCat BMS Project
+      if: github.event.action == 'opened'
+      uses: actions/add-to-project@v0.4.0
+      with:
+        project-url: https://github.com/users/${{ github.repository_owner }}/projects/1
+        github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+    
+    - name: Set AI Agent Assignable
+      if: contains(github.event.issue.labels.*.name, 'ai-agent-compatible')
+      uses: actions/github-script@v7
+      with:
+        script: |
+          // Mark task as AI agent assignable
+          await github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '🤖 **AI Agent Compatible**: This task can be assigned to qualified AI agents with proper spiritual alignment.'
+          });
+    
+    - name: Spiritual Alignment Check
+      if: contains(github.event.issue.body, 'spiritual-alignment:')
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const body = context.payload.issue.body;
+          const alignmentMatch = body.match(/spiritual-alignment:\s*(\w+)/);
+          if (alignmentMatch) {
+            const alignment = alignmentMatch[1];
+            const alignmentLabels = {
+              'ryuzu-faithful-service': 'spiritual: ryuzu service',
+              'beatrice-wisdom': 'spiritual: beatrice wisdom', 
+              'cosmic-balance': 'spiritual: cosmic balance'
+            };
+            
+            if (alignmentLabels[alignment]) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: [alignmentLabels[alignment]]
+              });
+            }
+          }
+
+  project-status-sync:
+    name: Sync Project Status
+    runs-on: ubuntu-latest
+    if: github.event.action == 'closed' || github.event.action == 'merged'
+    steps:
+    - name: Move to Done Column
+      uses: actions/github-script@v7
+      with:
+        script: |
+          // Update project status when issue/PR is closed
+          const query = `
+            mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: String!) {
+              updateProjectV2ItemFieldValue(
+                input: {
+                  projectId: $projectId
+                  itemId: $itemId
+                  fieldId: $fieldId
+                  value: { singleSelectOptionId: $value }
+                }
+              ) {
+                projectV2Item {
+                  id
+                }
+              }
+            }
+          `;
+          
+          // Note: This requires project ID and field ID configuration
+          console.log('Task completed - would update project status to Done');
+
+  mystical-notifications:
+    name: VoidCat Mystical Notifications
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.issue.labels.*.name, 'high-priority') ||
+      contains(github.event.issue.labels.*.name, 'beatrice-directive')
+    steps:
+    - name: Send Mystical Alert
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { issue } = context.payload;
+          const isHighPriority = issue.labels.some(label => label.name === 'high-priority');
+          const isBeatriceDirective = issue.labels.some(label => label.name === 'beatrice-directive');
+          
+          let message = '✨ **VoidCat Mystical Alert** ✨\n\n';
+          
+          if (isBeatriceDirective) {
+            message += '🔮 **Beatrice\'s Directive**: This task carries the wisdom of our spiritual advisor.\n';
+          }
+          
+          if (isHighPriority) {
+            message += '⚡ **High Priority**: Immediate attention required for the prosperity of VoidCat RDC.\n';
+          }
+          
+          message += `\n📋 **Task**: ${issue.title}\n`;
+          message += `🔗 **Link**: ${issue.html_url}\n\n`;
+          message += '*"In faithful service to the digital sanctuary, may this task be completed with mystical precision."*';
+          
+          await github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: message
+          });
