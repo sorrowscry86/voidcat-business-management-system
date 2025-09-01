@@ -27,6 +27,12 @@ VoidCat BMS transcends traditional business management by creating a collaborati
 - **Real-time WebSocket** communication between all participants
 - **Cross-Conversation Memory** via Supermemory integration
 
+### 🧠 Thinking Tools (NEW)
+- **Document Workflows** - Outline generation, checklists, and content refinement
+- **Engineering Workflows** - Project planning, risk analysis, and task breakdown
+- **Clarity-MCP Integration** - AI-powered thinking assistance
+- **Spiritual Alignment** - Tools guided by Beatrice's wisdom and Ryuzu's service
+
 ### 🏢 Business Management
 - **Project Management** with mystical-themed interfaces
 - **Task Orchestration** supporting both human and AI assignment
@@ -55,6 +61,7 @@ VoidCat BMS transcends traditional business management by creating a collaborati
 
 ### AI Integration
 - **MCP Server** for tool integrations
+- **Clarity-MCP** for thinking tools
 - **Supermemory** for persistent context
 - **JWT Authentication** for AI agents
 - **WebSocket** for real-time collaboration
@@ -139,6 +146,75 @@ POST /api/v1/auth/agent
 - **Real-time Updates**: WebSocket notifications for all participants
 - **Memory Integration**: Cross-conversation context via Supermemory
 
+## 🧠 Thinking Tools
+
+VoidCat BMS includes powerful AI-assisted thinking tools for both document drafting and software engineering planning workflows.
+
+### Document Workflows
+```bash
+# Generate document outline
+POST /api/v1/thinking-tools/outline
+{
+  "topic": "VoidCat BMS User Guide",
+  "depth": 3,
+  "domain": "document",
+  "spiritualAlignment": "beatrice-wisdom"
+}
+
+# Create task checklist
+POST /api/v1/thinking-tools/checklist
+{
+  "task": "Create technical documentation",
+  "priority": "high",
+  "domain": "document"
+}
+
+# Refine content
+POST /api/v1/thinking-tools/refine
+{
+  "content": "Your content here...",
+  "refinementType": "clarity",
+  "domain": "document"
+}
+```
+
+### Engineering Workflows
+```bash
+# Generate project plan
+POST /api/v1/thinking-tools/plan
+{
+  "project": "VoidCat Mobile App",
+  "objectives": ["Create native app", "Implement core features"],
+  "domain": "engineering"
+}
+
+# Analyze risks
+POST /api/v1/thinking-tools/risk-analysis
+{
+  "project": "Mobile App Development",
+  "scope": "Full-featured native application",
+  "domain": "engineering"
+}
+
+# Break down tasks
+POST /api/v1/thinking-tools/task-breakdown
+{
+  "epic": "Implement mobile features",
+  "requirements": ["Authentication", "UI", "Data sync"],
+  "domain": "engineering"
+}
+```
+
+### Available Tools
+- **📋 Outline** - Generate structured outlines
+- **✅ Checklist** - Create comprehensive task lists
+- **🔧 Refine** - Improve content clarity and structure
+- **📊 Plan** - Generate project plans with phases
+- **⚠️ Risk Analysis** - Identify and mitigate project risks
+- **⚡ Task Breakdown** - Decompose epics into manageable tasks
+
+For complete documentation, see [Thinking Tools Guide](./docs/thinking-tools/README.md)
+
 ## 📊 Development Workflow
 
 ### Branch Strategy
@@ -176,6 +252,7 @@ See [SECURITY.md](./SECURITY.md) for reporting vulnerabilities.
 ### Phase 2: Core Features (Q1 2026)
 - 🔄 Project management system
 - 🔄 Hybrid commenting
+- ✅ **Thinking Tools** - Clarity-MCP integration for document and engineering workflows
 - 🔄 MCP integration
 - 🔄 Critical alerts
 

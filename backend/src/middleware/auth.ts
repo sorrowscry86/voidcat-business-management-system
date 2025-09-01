@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { logger } from '../services/logger';
+import { SpiritualPrinciple } from '../types';
 
 // Extend Express Request to include user/agent information
 declare global {
@@ -10,7 +11,7 @@ declare global {
         id: string;
         type: 'human' | 'ai-agent';
         agentId?: string;
-        spiritualAlignment?: string;
+        spiritualAlignment?: SpiritualPrinciple;
         permissions?: string[];
       };
     }
