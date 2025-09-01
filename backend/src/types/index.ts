@@ -51,7 +51,8 @@ export type AgentCapability =
   | 'real-time-collaboration'
   | 'memory-integration'
   | 'critical-alerts'
-  | 'spiritual-guidance';
+  | 'spiritual-guidance'
+  | 'thinking-tools';
 
 export type AgentPermission =
   | 'read'

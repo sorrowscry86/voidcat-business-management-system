@@ -8,6 +8,7 @@ import {
   AIAgentAuthResponse, 
   SpiritualPrinciple,
   AgentCapability,
+  AgentPermission,
   APIResponse 
 } from '../types';
 
@@ -97,9 +98,7 @@ router.post('/auth', async (req, res) => {
       tokenPayload,
       process.env.JWT_SECRET || 'voidcat-mystical-secret',
       { 
-        expiresIn: process.env.AI_AGENT_TOKEN_EXPIRY || '24h',
-        issuer: 'voidcat-bms',
-        audience: 'ai-agents'
+        expiresIn: '24h'
       }
     );
 
@@ -270,9 +269,9 @@ router.get('/spiritual-guidance', (req, res) => {
 /**
  * Determine agent permissions based on capabilities and spiritual alignment
  */
-function determineAgentPermissions(capabilities: AgentCapability[], alignment: SpiritualPrinciple): string[] {
-  const basePermissions = ['read', 'comment'];
-  const additionalPermissions: string[] = [];
+function determineAgentPermissions(capabilities: AgentCapability[], alignment: SpiritualPrinciple): AgentPermission[] {
+  const basePermissions: AgentPermission[] = ['read', 'comment'];
+  const additionalPermissions: AgentPermission[] = [];
 
   // Capability-based permissions
   if (capabilities.includes('task-creation')) {
@@ -291,9 +290,6 @@ function determineAgentPermissions(capabilities: AgentCapability[], alignment: S
   // Spiritual alignment based permissions
   if (alignment === 'beatrice-wisdom') {
     additionalPermissions.push('spiritual_blessing', 'manage_projects');
-  }
-  if (alignment === 'ryuzu-faithful-service') {
-    additionalPermissions.push('detailed_review');
   }
 
   return [...basePermissions, ...additionalPermissions];
