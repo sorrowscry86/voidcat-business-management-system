@@ -4,12 +4,13 @@ import { PrismaClient } from '@prisma/client';
 import Redis from 'ioredis';
 import { VoidCatSpiritualService } from './spiritual';
 import { logger, spiritualLogger } from './logger';
+import { SpiritualPrinciple } from '../types';
 
 interface SocketUser {
   id: string;
   type: 'human' | 'ai-agent';
   agentId?: string;
-  spiritualAlignment?: string;
+  spiritualAlignment?: SpiritualPrinciple;
   permissions: string[];
 }
 
