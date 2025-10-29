@@ -16,6 +16,7 @@ import { projectRouter } from './routes/projects';
 import { taskRouter } from './routes/tasks';
 import { commentRouter } from './routes/comments';
 import { notificationRouter } from './routes/notifications';
+import { thinkingToolsRouter } from './routes/thinking-tools';
 import { errorHandler } from './middleware/errorHandler';
 import { authenticateUser } from './middleware/auth';
 import { setupWebSocket } from './services/websocket';
@@ -137,6 +138,7 @@ app.use('/api/v1/projects', authenticateUser, projectRouter);
 app.use('/api/v1/tasks', authenticateUser, taskRouter);
 app.use('/api/v1/comments', authenticateUser, commentRouter);
 app.use('/api/v1/notifications', authenticateUser, notificationRouter);
+app.use('/api/v1/thinking-tools', authenticateUser, thinkingToolsRouter);
 
 // WebSocket setup for real-time AI-Human collaboration
 setupWebSocket(io, { prisma, redis, spiritualService });
