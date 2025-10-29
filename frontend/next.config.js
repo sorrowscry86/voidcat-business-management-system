@@ -13,6 +13,7 @@ const nextConfig = {
     NEXT_PUBLIC_APP_NAME: 'VoidCat BMS',
     NEXT_PUBLIC_APP_DESCRIPTION: 'AI-Human Collaborative Intelligence Platform',
     NEXT_PUBLIC_SPIRITUAL_ALIGNMENT: 'mystical-technology',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
   images: {
     domains: ['localhost'],
