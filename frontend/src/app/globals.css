@@ -1,3 +1,18 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#1f1b2e] text-[#f3f0ff] overflow-x-hidden;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-opacity-20 bg-[#3b1a78] border border-white/10 backdrop-blur-md rounded-[1rem];
+  }
+  .cosmic-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#4c1d95] to-[#7c3aed];
+  }
+}

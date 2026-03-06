@@ -17,6 +17,9 @@ import { taskRouter } from './routes/tasks';
 import { commentRouter } from './routes/comments';
 import { notificationRouter } from './routes/notifications';
 import { thinkingToolsRouter } from './routes/thinking-tools';
+import operationsRouter from './routes/operations';
+import intelligenceRouter from './routes/intelligence';
+import nexusRouter from './routes/nexus';
 import { errorHandler } from './middleware/errorHandler';
 import { authenticateUser } from './middleware/auth';
 import { setupWebSocket } from './services/websocket';
@@ -60,8 +63,8 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
-    'Content-Type', 
-    'Authorization', 
+    'Content-Type',
+    'Authorization',
     'X-AI-Agent-ID',
     'X-Spiritual-Alignment',
     'X-MCP-Session-ID'
@@ -90,7 +93,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Logging with mystical formatting
-const morganFormat = process.env.NODE_ENV === 'production' 
+const morganFormat = process.env.NODE_ENV === 'production'
   ? 'combined'
   : ':method :url :status :res[content-length] - :response-time ms :remote-addr ✨';
 
@@ -139,6 +142,9 @@ app.use('/api/v1/tasks', authenticateUser, taskRouter);
 app.use('/api/v1/comments', authenticateUser, commentRouter);
 app.use('/api/v1/notifications', authenticateUser, notificationRouter);
 app.use('/api/v1/thinking-tools', authenticateUser, thinkingToolsRouter);
+app.use('/api/v1/operations', authenticateUser, operationsRouter);
+app.use('/api/v1/intelligence', authenticateUser, intelligenceRouter);
+app.use('/api/v1/nexus', authenticateUser, nexusRouter);
 
 // WebSocket setup for real-time AI-Human collaboration
 setupWebSocket(io, { prisma, redis, spiritualService });
@@ -159,11 +165,11 @@ app.use('*', (req, res) => {
 // Graceful shutdown
 process.on('SIGTERM', async () => {
   logger.info('🔮 VoidCat BMS: Graceful shutdown initiated...');
-  
+
   // Close database connections
   await prisma.$disconnect();
   redis.disconnect();
-  
+
   // Close server
   server.close(() => {
     logger.info('✨ VoidCat BMS: Digital sanctuary peacefully closed');

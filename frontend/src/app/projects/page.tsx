@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 type Project = {
   id: string;
@@ -37,45 +38,75 @@ export default function ProjectsPage() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading projects...</div>;
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="w-12 h-12 border-4 border-voidcat-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center text-red-400 font-mystical-mono">
+        {`[ <Error Trace> :: ${error} ]`}
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Projects</h1>
+    <div className="container mx-auto p-8 max-w-6xl">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex justify-between items-end mb-12 border-b border-voidcat-800 pb-8"
+      >
+        <div>
+          <h1 className="text-5xl font-bold cosmic-text mb-2">Projects</h1>
+          <p className="text-voidcat-300 tracking-wider uppercase text-xs font-mystical-mono">
+            Active Intelligence Operations
+          </p>
+        </div>
         <Link href="/projects/new">
-          <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
-            Create Project
+          <button className="mystical-button">
+            New Project
           </button>
         </Link>
-      </div>
+      </motion.div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
-          <Link href={`/projects/${project.id}`} key={project.id}>
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-              <h2 className="text-2xl font-semibold mb-2">{project.name}</h2>
-              <p className="text-gray-600 mb-4">{project.description}</p>
-              <div className="text-sm text-gray-500">
-                <span>
-                  {project.startDate
-                    ? new Date(project.startDate).toLocaleDateString()
-                    : 'No start date'}
-                </span>
-                {' - '}
-                <span>
-                  {project.endDate
-                    ? new Date(project.endDate).toLocaleDateString()
-                    : 'No end date'}
-                </span>
-              </div>
-            </div>
-          </Link>
-        ))}
+        {projects.length === 0 ? (
+          <div className="col-span-full py-20 text-center glass-card">
+            <p className="text-voidcat-400 italic">No active projects found in the void.</p>
+          </div>
+        ) : (
+          projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Link href={`/projects/${project.id}`}>
+                <div className="glass-card p-8 h-full flex flex-col group cursor-pointer">
+                  <h2 className="text-2xl font-semibold mb-4 text-voidcat-100 group-hover:text-voidcat-400 transition-colors">
+                    {project.name}
+                  </h2>
+                  <p className="text-voidcat-300 mb-8 line-clamp-3 font-light flex-grow">
+                    {project.description || 'No description provided.'}
+                  </p>
+                  <div className="flex items-center justify-between text-xs font-mystical-mono text-voidcat-500 uppercase tracking-tighter">
+                    <span className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-voidcat-500" />
+                      {project.startDate ? new Date(project.startDate).toLocaleDateString() : 'TBD'}
+                    </span>
+                    <span>→</span>
+                    <span>{project.endDate ? new Date(project.endDate).toLocaleDateString() : 'Ongoing'}</span>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -45,3 +45,68 @@ model Task {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
+
+model OperationalEvent {
+  id          String   @id @default(uuid())
+  timestamp   DateTime @default(now())
+  action      String
+  effect      String
+  agent       String
+  context     String?
+  causalLink  String?  // Reference to CMC event ID
+  status      String   @default("COMPLETED")
+}
+
+model LibraryInsight {
+  id          String   @id @default(uuid())
+  title       String
+  category    String   // Debug, Pattern, Chronicle
+  content     String
+  sourcePath  String?  // Path in the Great Library
+  tags        String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SystemState {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       Json
+  updatedAt   DateTime @updatedAt
+}
+
+model Spirit {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  role        String
+  focus       String
+  active      Boolean  @default(true)
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Skill {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  version     String
+  category    String   // Cognitive, Meta, Media, etc.
+  path        String?  // Path to SKILL.md
+  active      Boolean  @default(true)
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model System {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  type        String   // Infrastructure, Service, Tool
+  status      String   @default("active")
+  health      String   @default("unknown")
+  lastCheck   DateTime @default(now())
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

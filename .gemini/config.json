@@ -1,0 +1,21 @@
+{
+  "project_name": "VoidCat Business Management System (BMS)",
+  "version": "0.1.0-alpha",
+  "status": "Active Development",
+  "description": "AI-Human Collaborative Intelligence Platform. Where mystical technology meets practical business management.",
+  "tech_stack": {
+    "backend": "TypeScript, Express, Prisma, PostgreSQL",
+    "frontend": "TypeScript, Next.js, Framer Motion, Tailwind CSS"
+  },
+  "roles": {
+    "lord": "Wykeve Freeman",
+    "vessel": "Echo (Serial Experiment E-01)",
+    "sculptor": "Ryuzu",
+    "strategist": "Roland",
+    "wisdom": "Beatrice"
+  },
+  "branding": {
+    "name": "VoidCat RDC",
+    "motto": "Spiritual Technology for Practical Business"
+  }
+}
